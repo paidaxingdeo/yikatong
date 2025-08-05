@@ -23,7 +23,7 @@
             /* Removed fixed height to allow content to dictate height */
         }
 
-        /* 支付码卡片 */
+        /* Payment card styling */
         .payment-card {
             background-color: #fff;
             margin: 15px;
@@ -42,9 +42,8 @@
         }
 
         .user-avatar {
-            /* 调整用户头像大小 */
-            width: 90px;
-            height: 120px;
+            width: 80px;
+            height: 110px;
             border-radius: 8px;
             margin-right: 15px;
             border: 1px solid #eee;
@@ -65,21 +64,21 @@
             color: #888;
         }
 
-        /* 关键修改：时间显示样式 */
+        /* Real-time display styling adjustments */
         .payment-timer {
             margin-bottom: 10px;
         }
 
         .payment-timer .date-time-part {
-            font-size: 24px;
+            font-size: 20px; /* Reduced font size */
             font-weight: bold;
             color: #000;
         }
 
         .payment-timer .seconds-part {
-            font-size: 36px; /* 增大字号 */
+            font-size: 30px; /* Reduced font size */
             font-weight: bold;
-            color: #ff4500; /* 红色 */
+            color: #ff4500; /* Red color */
         }
 
         .instruction {
@@ -89,10 +88,10 @@
         }
 
         .qr-code {
-            width: 80%; /* 保持宽度 */
+            width: 80%; /* Maintain width */
             height: auto;
-            display: block; /* 使其成为块级元素以便margin: auto生效 */
-            margin: 0 auto 20px; /* 居中并添加底部边距 */
+            display: block; /* Make it a block element for margin: auto to work */
+            margin: 0 auto 20px; /* Center and add bottom margin */
         }
 
         .refresh-info {
@@ -102,8 +101,8 @@
         }
 
         .refresh-button {
-            width: 80%;
-            padding: 12px;
+            width: 60%; /* Reduced width */
+            padding: 10px; /* Reduced padding */
             font-size: 16px;
             color: #fff;
             background-color: #1a73e8;
@@ -113,7 +112,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        /* 账户余额卡片 */
+        /* Account balance card styling */
         .balance-card {
             display: flex;
             align-items: center;
@@ -163,7 +162,7 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- 支付码卡片 -->
+        <!-- Payment card -->
         <div class="payment-card">
             <div class="user-info">
                 <img src="user-avatar.png" alt="用户头像" class="user-avatar">
@@ -173,7 +172,7 @@
                 </div>
             </div>
 
-            <!-- 时间显示部分，根据图片重新添加 -->
+            <!-- Time display section -->
             <div class="payment-timer" id="payment-timer">
                 <span class="date-time-part">2025-08-05 19:57:</span><span class="seconds-part">34</span>
             </div>
@@ -213,7 +212,7 @@
             let timerInterval;
             let qrRefreshInterval;
 
-            // 更新时间显示，现在只在 payment-timer 元素中显示
+            // Update time display, now only in the payment-timer element
             function updateTime() {
                 const now = new Date();
                 const year = now.getFullYear();
@@ -223,34 +222,34 @@
                 const minutes = String(now.getMinutes()).padStart(2, '0');
                 const seconds = String(now.getSeconds()).padStart(2, '0');
 
-                // 将时间拆分为两部分进行显示
+                // Display time in two parts
                 paymentTimerElement.innerHTML = `<span class="date-time-part">${year}-${month}-${day} ${hours}:${minutes}:</span><span class="seconds-part">${seconds}</span>`;
             }
 
-            // 更新二维码刷新倒计时
+            // Update QR code refresh countdown
             function updateCountdown() {
                 countdown--;
 
-                // 每60秒刷新一次二维码
+                // Refresh QR code every 60 seconds
                 if (countdown <= 0) {
                     qrCodeElement.src = `qr-code-image.png?t=${new Date().getTime()}`;
-                    countdown = 60; // 重置计时器
+                    countdown = 60; // Reset timer
                 }
             }
 
-            // 初始调用和设置定时器
+            // Initial call and set timers
             updateTime();
             timerInterval = setInterval(updateTime, 1000);
 
-            // 设置每秒检查一次是否需要刷新二维码
+            // Set to check every second if QR code needs refreshing
             qrRefreshInterval = setInterval(updateCountdown, 1000);
 
-            // 刷新按钮点击事件
+            // Refresh button click event
             document.querySelector('.refresh-button').addEventListener('click', () => {
-                clearInterval(qrRefreshInterval); // 清除现有计时器
-                qrCodeElement.src = `qr-code-image.png?t=${new Date().getTime()}`; // 立即刷新二维码
-                countdown = 60; // 重置倒计时
-                qrRefreshInterval = setInterval(updateCountdown, 1000); // 重新开始计时器
+                clearInterval(qrRefreshInterval); // Clear existing timer
+                qrCodeElement.src = `qr-code-image.png?t=${new Date().getTime()}`; // Immediately refresh QR code
+                countdown = 60; // Reset countdown
+                qrRefreshInterval = setInterval(updateCountdown, 1000); // Restart timer
             });
         });
     </script>
